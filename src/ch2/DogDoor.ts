@@ -1,25 +1,18 @@
 export class DogDoor{
 
-  constructor(private isOpen=false){}
-
+  constructor(private _open=false){}
 
   public open(){
-    
-    let timeoutId: NodeJS.Timeout ;
+      this._open = true
+  }
+  public close(){
 
-    return()=>{
+    this._open=false
 
-      if(timeoutId)clearTimeout(timeoutId)
-      
-      this.isOpen=true
+  }
 
-      const timeOut= setTimeout(()=>{
-         this.isOpen=false
-         
-      },2000)
-
-    }   
-
+  public isOpen():boolean{
+    return this._open
   }
 
 }
