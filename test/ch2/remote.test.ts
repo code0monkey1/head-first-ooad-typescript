@@ -1,8 +1,13 @@
+import { Bark, Sound } from "../../src/ch2/Bark";
 import { DogDoor } from "../../src/ch2/DogDoor";
-import { IBarkSensor, Remote } from "../../src/ch2/Remote";
-jest.useFakeTimers();
-describe('remote', () => {
+import { Remote } from "../../src/ch2/Remote";
 
+describe('remote', () => {
+  jest.useFakeTimers();
+
+   beforeEach(()=>{
+    jest.clearAllMocks()
+  })
 
   describe('pressButton', () => {
 
@@ -12,14 +17,10 @@ describe('remote', () => {
       it('opens the door',()=>{
   
            //arrange
-           const dogDoor = new DogDoor()
-            const isBarkingMock = jest.fn()
-
-            const barkSensor:IBarkSensor ={
-              isBarking:isBarkingMock
-            }
-    
-            const remote = createRemote(dogDoor,barkSensor)
+           const dogBark = new Bark('woof')
+           const dogDoor = new DogDoor(dogBark)
+         
+            const remote = createRemote(dogDoor)
            //act
            remote.pressButton()
   
@@ -29,18 +30,12 @@ describe('remote', () => {
 
       it('closes the door , after opening for 2 seconds',()=>{
           
-
            //arrange
-           const dogDoor = new DogDoor()
-           const isBarkingMock = jest.fn()
+           const dogBark = new Bark('woof')
+           const dogDoor = new DogDoor(dogBark)
 
-            const barkSensor:IBarkSensor ={
-              isBarking:isBarkingMock
-            }
+           const remote = createRemote(dogDoor)
 
-            const remote = createRemote(dogDoor,barkSensor)
-
-  
            //act
            remote.pressButton()
   
@@ -62,16 +57,10 @@ describe('remote', () => {
         it('closes the door',()=>{
           
           //arrange
-          const dogDoor = new DogDoor()
-          const isBarkingMock = jest.fn()
-
-          const barkSensor:IBarkSensor ={
-            isBarking:isBarkingMock
-          }
-
-          isBarkingMock.mockReturnValueOnce(true)
-          
-          const remote = new Remote(dogDoor,barkSensor)
+           const dogBark = new Bark('woof')
+           const dogDoor = new DogDoor(dogBark)
+  
+          const remote = new Remote(dogDoor)
           
           dogDoor.open()
 
@@ -83,55 +72,13 @@ describe('remote', () => {
         
       })
     })
-
-    
-    
-
-
     
   })
-
-
-  describe('dog barks', () => {
-
-
-    describe('the door is closed', () => {
-
-
-      it('opens the door',()=>{
-
-        
-        //arrange
-         const dogDoor = new DogDoor()
-         const isBarkingMock = jest.fn()
-
-         const barkSensor:IBarkSensor ={
-             isBarking:isBarkingMock
-           }
-
-         const sut = createRemote(dogDoor,barkSensor)
-
-         isBarkingMock.mockReturnValueOnce(true)
-
-          //act
-          jest.advanceTimersByTime(1000);
-          
-          //assert
-         expect(dogDoor.isOpen()).toBe(true)
-
-      })
-    })
-    
-    
-  })
-  
-
-  
   
   
 })
 
-const createRemote=(dogDoor:DogDoor, barkSensor:IBarkSensor)=>{
+const createRemote=(dogDoor:DogDoor)=>{
  
-   return new Remote(dogDoor,barkSensor)
+   return new Remote(dogDoor)
 }
