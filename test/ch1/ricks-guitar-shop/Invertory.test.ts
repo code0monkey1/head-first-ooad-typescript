@@ -4,7 +4,6 @@ import { Builder, Type, Wood } from "../../../src/ch1/ricks-guitar-shop/types"
 
 describe('FilterGuitars', () => {
 
-
   describe('execute', () => {
 
     describe('all odd guitars match', () => {

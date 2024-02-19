@@ -1,13 +1,12 @@
 import { Builder, Type, Wood } from "./types";
 
-
 export type TGuitarProps = {
   guitarSpecs :  GuitarSpecs;
   serialNumber: string;
   price: number;
 };
 
-export type TGuitarSpecs ={
+export type TInstrumentSpecs={
   builder: Builder;
   model: string;
   type: Type;
@@ -15,8 +14,9 @@ export type TGuitarSpecs ={
   topWood: Wood;
 }
 
+export type TGuitarSpecs = TInstrumentSpecs & { numStrings:number}
 
-export class GuitarSpecs{
+export abstract class InstrumentSpecs{
 
   private builder: Builder;
   private model: string;
@@ -24,58 +24,68 @@ export class GuitarSpecs{
   private backWood: Wood;
   private topWood: Wood;
 
-  constructor(private guitarSpecs :TGuitarSpecs){
-    this.builder=guitarSpecs.builder,
-    this.model=guitarSpecs.model,
-    this.type=guitarSpecs.type,
-    this.backWood=guitarSpecs.backWood,
-    this.topWood=guitarSpecs.topWood
+ 
+  constructor(private specs :TInstrumentSpecs){
+   
+    this.builder=specs.builder,
+    this.model=specs.model,
+    this.type=specs.type,
+    this.backWood=specs.backWood,
+    this.topWood=specs.topWood
+  
   }
 
-  getBuilder(): Builder {
-    return this.builder;
-  }
-
-  getModel(): string {
-    return this.model;
-  }
-
-  getType(): Type {
-    return this.type;
-  }
-
-  getBackWood(): Wood {
-    return this.backWood;
-  }
-
-  getTopWood(): Wood {
-    return this.topWood;
-  }
 
 }
 
-export class Guitar {
-  private guitarSpecs :GuitarSpecs
-  private serialNumber: string;
-  private price: number;
 
-  constructor(guitarProps:TGuitarProps) {
-    this.guitarSpecs=guitarProps.guitarSpecs
-    this.serialNumber = guitarProps.serialNumber;
-    this.price = guitarProps.price;
+export class GuitarSpecs  extends InstrumentSpecs{
+
+  private numStrings:number
+
+  constructor(private guitarSpecs :TGuitarSpecs){
+    super(guitarSpecs)
+ 
+    this.numStrings=guitarSpecs.numStrings
   }
-  getGuitarSpecs():GuitarSpecs{
-    return this.guitarSpecs
-  }
+
+
+}
+ 
+export abstract class Instrument{
+   
+  constructor(private serialNumber:string,
+    private price:number,
+    ){}
+
   getSerialNumber(): string {
-    return this.serialNumber;
+    return this.serialNumber
   }
 
   getPrice(): number {
     return this.price;
   }
 
-  setPrice(newPrice: number): void {
+   setPrice(newPrice: number): void {
     this.price = newPrice;
   }
+
+  abstract getSpecs():InstrumentSpecs 
+
 }
+
+
+export class Guitar extends Instrument {
+  
+  constructor(guitarProps:TGuitarProps) {
+    super(guitarProps.serialNumber,
+      guitarProps.price)
+    }
+    
+    getSpecs(): GuitarSpecs {
+      return this.getSpecs()
+    }
+
+}
+
+

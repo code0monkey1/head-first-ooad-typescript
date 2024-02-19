@@ -13,24 +13,28 @@ describe('bark recognizer', () => {
 
     describe('when different dog', () => {
        
-       it('nothing happens',()=>{
-    
-           // arrange
-            const dogBark = new Bark('woof')
-            const dogDoor = new DogDoor(dogBark)
-           const sut = new BarkRecognizer(dogDoor)
-    
-            // act
-            sut.recognize(new Bark('wife'))
-    
-           // assert
-           expect(dogDoor.isOpen()).toBe(false)
-        })
+      describe('door is closed', () => {
+        
+         it('does not open',()=>{
+      
+             // arrange
+              const dogBark = new Bark('woof')
+              const dogDoor = new DogDoor(dogBark)
+             const sut = new BarkRecognizer(dogDoor)
+      
+              // act
+              sut.recognize(new Bark('wife'))
+      
+             // assert
+             expect(dogDoor.isOpen()).toBe(false)
+          })
+        
+      })
 
     })
 
 
-    describe(' when family dog', () => {
+    describe('when family dog', () => {
       
       describe('door is closed', () => {
   
@@ -72,10 +76,6 @@ describe('bark recognizer', () => {
         
       })
     })
-    
-    
-    
-    
     
   })
   

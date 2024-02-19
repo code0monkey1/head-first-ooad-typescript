@@ -1,4 +1,4 @@
-export abstract class Sound { 
+export abstract class Sound{ 
 
   constructor(private sound:string){}
   

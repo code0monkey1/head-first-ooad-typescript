@@ -8,7 +8,7 @@ export class Remote{
       constructor(private dogDoor:DogDoor){
 
            this._dogDoor=dogDoor
-      
+       
       }
 
     public pressButton() {

@@ -7,16 +7,13 @@ export class BarkRecognizer{
         
       public recognize(bark:Bark) {
             
-        if(!this.dogDoor.isOpen()  && this.isOwnersDog(bark)){
-                
-          this.dogDoor.open()
+        if( this.isOwnersDog(bark))this.dogDoor.open()
 
-        }
+      }
 
-            }
       private isOwnersDog(bark:Bark){
 
-        return  bark.equals(this.dogDoor.getSound())
+        return  this.dogDoor.getSounds().some( sound => sound.equals(bark))
 
       }
     
